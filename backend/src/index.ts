@@ -1,5 +1,5 @@
 import express from "express";
-import {Db, MongoClient} from "mongodb";
+import {Collection, Db, ListCollectionsCursor, MongoClient} from "mongodb";
 import bodyParser from "body-parser";
 import cors from "cors";
 
@@ -18,9 +18,38 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Routes
 // ====================================================================
 
+// types
+type Date = {
+    minute: number
+    hour: number
+    day: number
+    month: number
+    year: number
+}
+
+type Post = {
+    postID: Number
+    title: String
+    body: String
+    date: Date
+}
+
+// collections
+db.createCollection<Post>("posts");
+
+
+function getMin(lst: Post[]) {
+    var curMin = null;
+    for (const post of lst) {
+        if (post.)
+    }
+}
+
+
 // TODO: Implement a route handler that returns a list of all posts, ordered by date created.
 app.get("/posts", async (req, res) => {
-    res.send("TODO: GET /posts");
+    var c = getMin(db.collection("posts"));
+    res.send(c);
 });
 
 // TODO: Implement a route handler that creates a new post.
@@ -73,7 +102,7 @@ app.delete("/posts/:postID/comments/:commentID", async (req, res) => {
 
 // Start the Express server.
 function start() {
-    const client = new MongoClient(process.env.ATLAS_URI);
+    const client = new MongoClient("mongodb+srv://sethsabar:Gz9Acyra9T11B79N@cluster0.joeqg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
     client.connect()
         .then(() => {
             console.log('Connected successfully to server');
