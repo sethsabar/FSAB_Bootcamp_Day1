@@ -18,11 +18,14 @@ interface Props {
 
 const NewPostModal: FC<Props> = ({isOpen, onClose}) => {
     // TODO: Fill out this handleSubmit function!
-    function handleSubmit(e: any) {
-    }
-
+    //function handleSubmit(e: any) {}
     // TODO: Implemnt a NewPostModal!
-    return ();
+
+    return <div>
+        <ModalBody>
+
+        </ModalBody>
+    </div>;
 }
 
 export default NewPostModal;

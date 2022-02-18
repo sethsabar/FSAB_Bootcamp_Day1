@@ -10,7 +10,18 @@ interface Props {
 
 const Post: FC<Props> = ({title, body, postedAt}) => {
     // TODO: Implemnt a Post!
-    return ();
+    return <Box>
+            <Text fontSize='xl'>
+                {title}
+            </Text>
+            <Text fontSize='sm' color='gray'>
+                Posted: {postedAt}
+            </Text>
+            <Divider></Divider>
+            <Text fontSize='md'>
+                {body}
+            </Text>
+        </Box>
 }
 
 export default Post;
