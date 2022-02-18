@@ -22,9 +22,22 @@ const NewPostModal: FC<Props> = ({isOpen, onClose}) => {
     // TODO: Implemnt a NewPostModal!
 
     return <div>
-        <ModalBody>
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>New Post</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Insert text here
+          </ModalBody>
 
-        </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Post
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+        </Modal>
     </div>;
 }
 
