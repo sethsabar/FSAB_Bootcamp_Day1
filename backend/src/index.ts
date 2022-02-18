@@ -37,19 +37,32 @@ type Post = {
 // collections
 db.createCollection<Post>("posts");
 
+function newer(post1: Post, post2: Post): boolean {
+    return false;
+}
 
-function getMin(lst: Post[]) {
-    var curMin = null;
-    for (const post of lst) {
-        if (post.)
+function sort(lst: Post[]): void {
+    for (let i = 0; i < lst.length; i++) {
+        for (let j = i + 1; j < lst.length; j++) {
+            if (newer(lst[i], lst[j])) {
+                let temp = lst[i]
+                lst[i] = lst[j]
+                lst[j] = temp
+            }
+        }
     }
 }
 
 
 // TODO: Implement a route handler that returns a list of all posts, ordered by date created.
 app.get("/posts", async (req, res) => {
-    var c = getMin(db.collection("posts"));
-    res.send(c);
+    let retList: Post[];
+    for (const post in db.collection("posts")) {
+        let post: Post
+        retList.push(post)
+    }
+    sort(retList);
+    res.send(retList);
 });
 
 // TODO: Implement a route handler that creates a new post.
