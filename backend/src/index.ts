@@ -1,12 +1,13 @@
 import express from "express";
-import {Collection, Db, ListCollectionsCursor, MongoClient} from "mongodb";
+import {Collection, CURSOR_FLAGS, Db, ListCollectionsCursor, MongoClient} from "mongodb";
 import bodyParser from "body-parser";
 import cors from "cors";
 
 const app = express();
 const port = 8080; // Default port to listen on.
 let db: Db;
-var curPostID = 0;
+let curPostID = 0;
+let curCommentID = 0;
 
 // Middleware.
 app.use(express.json());
@@ -28,6 +29,13 @@ type Date = {
     year: number
 }
 
+type Comment = {
+    commentID: Number
+    body: String
+    post: Number
+    date: Date
+}
+
 type Post = {
     postID: Number
     title: String
@@ -37,6 +45,7 @@ type Post = {
 
 // collections
 db.createCollection<Post>("posts");
+db.createCollection<Comment>("comments");
 
 function newer(post1: Post, post2: Post): boolean {
 
@@ -101,42 +110,52 @@ app.post("/posts", async (req, res) => {
 
 // TODO: Implement a route handler that gets a post associated with a given postID.
 app.get("/posts/:postID", async (req, res) => {
-    res.send("TODO: GET /posts/{postID}");
+    let post = db.collection("posts").findOne({postID: res.get("postID")});
+    res.send(post);
 });
 
 // TODO: Implement a route handler that updates the post associated with a given postID.
 app.patch("/posts/:postID", async (req, res) => {
-    res.send("TODO: PATCH /posts/{postID}");
+    let post = db.collection("posts").updateOne({postID: res.get("postID")}, {title: req.get("title"), body: req.get("title")});
+    res.send(post);
 });
 
 // TODO: Implement a route handler that deletes the post associated with a given postID.
 app.delete("/posts/:postID", async (req, res) => {
-    res.send("TODO: DELETE /posts/{postID}");
+    db.collection("posts").deleteOne({postID: req.get("postID")})
+    res.send("post deleted");
 });
 
 // TODO: Implement a route handler that gets all the comments associated with a given postID.
 app.get("/posts/:postID/comments", async (req, res) => {
-    res.send("TODO: GET /posts/{postID}/comments");
+    let postComments = db.collection("comments").find({postID: req.get("postID")});
+    res.send(postComments);
 });
 
 // TODO: Implement a route handler that gets adds a comment to the post with the given postID.
 app.post("/posts/:postID/comments", async (req, res) => {
-    res.send("TODO: POST /posts/{postID}/comments");
+    let newComment = {commentID: curCommentID, body: req.get("body"), post: req.get("post"), date: req.get("date")}
+    curCommentID += 1;
+    db.collection("comments").insertOne(newComment);
+    res.send(newComment);
 });
 
 // TODO: Implement a route handler that gets a comment associated with the given commentID.
 app.get("/posts/:postID/comments/:commentID", async (req, res) => {
-    res.send("TODO: GET /posts/{postID}/comments/{commentID}");
+    let comment = db.collection("comments").findOne({commentID: req.get("commentID")});
+    res.send(comment);
 });
 
 // TODO: Implement a route handler that updates a comment associated with the given commentID.
 app.patch("/posts/:postID/comments/:commentID", async (req, res) => {
-    res.send("TODO: PATCH /posts/{postID}/comments");
+    let comment = db.collection("comments").updateOne({commentID: req.get("commentID")}, {body: req.get("body")})
+    res.send(comment);
 });
 
 // TODO: Implement a route handler that deletes a comment associated with the given commentID.
 app.delete("/posts/:postID/comments/:commentID", async (req, res) => {
-    res.send("TODO: DELETE /posts/{postID}/comments");
+    db.collection("comments").deleteOne({commentID: req.get("commentID")});
+    res.send("comment deleted");
 });
 
 
