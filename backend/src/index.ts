@@ -6,6 +6,7 @@ import cors from "cors";
 const app = express();
 const port = 8080; // Default port to listen on.
 let db: Db;
+var curPostID = 0;
 
 // Middleware.
 app.use(express.json());
@@ -38,6 +39,32 @@ type Post = {
 db.createCollection<Post>("posts");
 
 function newer(post1: Post, post2: Post): boolean {
+
+    if (post1.date.year > post2.date.year) {
+        return true;
+    } else if (post1.date.year < post2.date.year) {
+        return false;
+    }
+    if (post1.date.month > post2.date.month) {
+        return true;
+    } else if (post1.date.month < post2.date.month) {
+        return false;
+    }
+    if (post1.date.day > post2.date.day) {
+        return true;
+    } else if (post1.date.day < post2.date.day) {
+        return false;
+    }
+    if (post1.date.hour > post2.date.hour) {
+        return true;
+    } else if (post1.date.month < post2.date.month) {
+        return false;
+    }
+    if (post1.date.minute > post2.date.minute) {
+        return true;
+    } else if (post1.date.month < post2.date.month) {
+        return false;
+    }
     return false;
 }
 
@@ -53,10 +80,9 @@ function sort(lst: Post[]): void {
     }
 }
 
-
 // TODO: Implement a route handler that returns a list of all posts, ordered by date created.
 app.get("/posts", async (req, res) => {
-    let retList: Post[];
+    var retList: Post[];
     for (const post in db.collection("posts")) {
         let post: Post
         retList.push(post)
@@ -67,7 +93,10 @@ app.get("/posts", async (req, res) => {
 
 // TODO: Implement a route handler that creates a new post.
 app.post("/posts", async (req, res) => {
-    res.send("TODO: POST /posts");
+    let newPost = {postID: curPostID, title: req.get("title"), body: req.get("body"), date: req.get("date")}
+    curPostID +=1;
+    db.collection("posts").insertOne(newPost);
+    res.send(newPost);
 });
 
 // TODO: Implement a route handler that gets a post associated with a given postID.
