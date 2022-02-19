@@ -6,9 +6,8 @@ import {useState} from "react";
 
 const Home: NextPage = () => {
     // TODO: Implement this NextPage!
-    return <NewPostModal isOpen={false} onClose={function (): void {
-        throw new Error('Function not implemented.');
-    } }/>;
+    return <div>
+    </div>;
 }
 
 export default Home
