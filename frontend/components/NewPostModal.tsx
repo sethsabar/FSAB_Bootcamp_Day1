@@ -30,7 +30,6 @@ const NewPostModal: FC<Props> = ({isOpen, onClose}) => {
           <ModalBody>
             Insert text here
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Post
