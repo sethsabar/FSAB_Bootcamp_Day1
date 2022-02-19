@@ -18,7 +18,10 @@ interface Props {
 
 const NewPostModal: FC<Props> = ({isOpen, onClose}) => {
     // TODO: Fill out this handleSubmit function!
-    //function handleSubmit(e: any) {}
+    function handleSubmit(e: any) {
+      isOpen=false
+    }
+
     // TODO: Implemnt a NewPostModal!
 
     return <div>
@@ -27,11 +30,11 @@ const NewPostModal: FC<Props> = ({isOpen, onClose}) => {
         <ModalContent>
           <ModalHeader>New Post</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <Textarea>
             Insert text here
-          </ModalBody>
+          </Textarea>
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button colorScheme='blue' mr={3} onClick={handleSubmit}>
               Post
             </Button>
           </ModalFooter>
