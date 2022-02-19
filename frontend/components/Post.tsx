@@ -2,8 +2,6 @@ import {FC} from "react";
 import {Box, Divider, Text, VStack} from "@chakra-ui/react";
 import Comment from "./Comment";
 
-
-
 interface Props {
     title: string;
     body: string;
