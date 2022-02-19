@@ -81,7 +81,7 @@ function sort(lst: Post[]): void {
     for (let i = 0; i < lst.length; i++) {
         for (let j = i + 1; j < lst.length; j++) {
             if (newer(lst[i], lst[j])) {
-                let temp = lst[i]
+                const temp = lst[i]
                 lst[i] = lst[j]
                 lst[j] = temp
             }
@@ -91,7 +91,7 @@ function sort(lst: Post[]): void {
 
 // TODO: Implement a route handler that returns a list of all posts, ordered by date created.
 app.get("/posts", async (req, res) => {
-    var retList: Post[];
+    let retList: Post[];
     for (const post in db.collection("posts")) {
         let post: Post
         retList.push(post)
@@ -102,7 +102,7 @@ app.get("/posts", async (req, res) => {
 
 // TODO: Implement a route handler that creates a new post.
 app.post("/posts", async (req, res) => {
-    let newPost = {postID: curPostID, title: req.get("title"), body: req.get("body"), date: req.get("date")}
+    const newPost = {postID: curPostID, title: req.get("title"), body: req.get("body"), date: req.get("date")}
     curPostID +=1;
     db.collection("posts").insertOne(newPost);
     res.send(newPost);
@@ -110,13 +110,13 @@ app.post("/posts", async (req, res) => {
 
 // TODO: Implement a route handler that gets a post associated with a given postID.
 app.get("/posts/:postID", async (req, res) => {
-    let post = db.collection("posts").findOne({postID: res.get("postID")});
+    const post = db.collection("posts").findOne({postID: res.get("postID")});
     res.send(post);
 });
 
 // TODO: Implement a route handler that updates the post associated with a given postID.
 app.patch("/posts/:postID", async (req, res) => {
-    let post = db.collection("posts").updateOne({postID: res.get("postID")}, {title: req.get("title"), body: req.get("title")});
+    const post = db.collection("posts").updateOne({postID: res.get("postID")}, {title: req.get("title"), body: req.get("title")});
     res.send(post);
 });
 
@@ -128,13 +128,13 @@ app.delete("/posts/:postID", async (req, res) => {
 
 // TODO: Implement a route handler that gets all the comments associated with a given postID.
 app.get("/posts/:postID/comments", async (req, res) => {
-    let postComments = db.collection("comments").find({postID: req.get("postID")});
+    const postComments = db.collection("comments").find({postID: req.get("postID")});
     res.send(postComments);
 });
 
 // TODO: Implement a route handler that gets adds a comment to the post with the given postID.
 app.post("/posts/:postID/comments", async (req, res) => {
-    let newComment = {commentID: curCommentID, body: req.get("body"), post: req.get("post"), date: req.get("date")}
+    const newComment = {commentID: curCommentID, body: req.get("body"), post: req.get("post"), date: req.get("date")}
     curCommentID += 1;
     db.collection("comments").insertOne(newComment);
     res.send(newComment);
@@ -142,13 +142,13 @@ app.post("/posts/:postID/comments", async (req, res) => {
 
 // TODO: Implement a route handler that gets a comment associated with the given commentID.
 app.get("/posts/:postID/comments/:commentID", async (req, res) => {
-    let comment = db.collection("comments").findOne({commentID: req.get("commentID")});
+    const comment = db.collection("comments").findOne({commentID: req.get("commentID")});
     res.send(comment);
 });
 
 // TODO: Implement a route handler that updates a comment associated with the given commentID.
 app.patch("/posts/:postID/comments/:commentID", async (req, res) => {
-    let comment = db.collection("comments").updateOne({commentID: req.get("commentID")}, {body: req.get("body")})
+    const comment = db.collection("comments").updateOne({commentID: req.get("commentID")}, {body: req.get("body")})
     res.send(comment);
 });
 
